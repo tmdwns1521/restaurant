@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-
 public class MemoryDbEntity {
-    protected int index;
+    protected Integer index;
 }

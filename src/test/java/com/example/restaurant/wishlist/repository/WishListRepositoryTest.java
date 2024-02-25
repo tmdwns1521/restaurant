@@ -29,12 +29,16 @@ public class WishListRepositoryTest {
     }
 
     @Test
-    public void saveTest() {
-        WishListEntity wishListEntity = createWishList();
-        WishListEntity savedEntity = wishListRepository.save(wishListEntity);
+    void saveTest() {
+        var wishList = createWishList();
+        WishListEntity InwishList = wishListRepository.save(wishList);
+        Assertions.assertNotNull(InwishList); // null이면 안됨.
+        Assertions.assertEquals(1, InwishList.getIndex());
 
-        Assertions.assertNotNull(savedEntity);
-        Assertions.assertEquals(1, savedEntity.getIndex());
+        var wishList2 = createWishList();
+        WishListEntity InwishList2 = wishListRepository.save(wishList2);
+        Assertions.assertNotNull(InwishList2); // null이면 안됨.
+        Assertions.assertEquals(2, InwishList2.getIndex());
     }
 
     @Test
@@ -71,7 +75,7 @@ public class WishListRepositoryTest {
 
         Assertions.assertEquals(0, count);
     }
-    
+
     @Test
     public void listAllTest() {
         WishListEntity wishListEntity1 = createWishList();

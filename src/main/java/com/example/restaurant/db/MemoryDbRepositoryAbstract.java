@@ -4,19 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-abstract public class MemoryDbRepositoryAbstract<T extends MemoryDbEntity> implements MemoryDbRepositoryIfs<T> {
+public abstract class MemoryDbRepositoryAbstract<T extends MemoryDbEntity> implements MemoryDbRepositoryIfs<T> {
 
     private final List<T> db = new ArrayList<>();
     private int index = 0;
-
-    @Override
-    public void deleteById(int index) {
-        var optionalEntity = db.stream().filter(it -> it.getIndex() == index).findFirst();
-        if (optionalEntity.isPresent()) {
-            db.remove(optionalEntity.get());
-        }
-        
-    }
 
     @Override
     public Optional<T> findById(int index) {
@@ -24,19 +15,18 @@ abstract public class MemoryDbRepositoryAbstract<T extends MemoryDbEntity> imple
     }
 
     @Override
-    public List<T> listAll() {
-        return db;
-    }
-
-    @Override
     public T save(T entity) {
+
         var optionalEntity = db.stream().filter(it -> it.getIndex() == entity.getIndex()).findFirst();
-        if(optionalEntity.isEmpty()) {
-            index ++;
+
+        if (optionalEntity.isEmpty()) {
+            // db에 없는 경우
+            index++;
             entity.setIndex(index);
             db.add(entity);
             return entity;
         } else {
+            // db에 데이터가 있는경우
             var preIndex = optionalEntity.get().getIndex();
             entity.setIndex(preIndex);
 
@@ -45,5 +35,19 @@ abstract public class MemoryDbRepositoryAbstract<T extends MemoryDbEntity> imple
             return entity;
         }
     }
-    
+
+    @Override
+    public void deleteById(int index) {
+        var optionalEntity = db.stream().filter(it -> it.getIndex() == index).findFirst();
+
+        if (optionalEntity.isPresent()) {
+            db.remove(optionalEntity.get());
+        }
+    }
+
+    @Override
+    public List<T> listAll() {
+        return db;
+    }
+
 }
