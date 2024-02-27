@@ -5,9 +5,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.restaurant.wishlist.dto.WishListDto;
 import com.example.restaurant.wishlist.service.WishListService;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import org.springframework.web.bind.annotation.RequestBody;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class ApiController {
     private final WishListService wishListService;
 
     @GetMapping("/search")
-    public WishListDto search(@RequestParam String query) {
+    public WishListDto search(@RequestParam(name = "query") String query) {
         return wishListService.search(query);
     }
 
@@ -34,11 +33,9 @@ public class ApiController {
         System.out.println("wishListDto ::: " + wishListDto);
         wishListDto.setCategory("fwef");
 
-        return wishListDto;
-
         // return ResponseEntity.ok(wishListService.add(wishListDto));
 
-        // return wishListService.add(wishListDto);
+        return wishListService.add(wishListDto);
     }
 
     @GetMapping("/all")
